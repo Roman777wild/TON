@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, Float
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Float, DateTime
+from sqlalchemy.orm import declarative_base
+from datetime import datetime
 
 Base = declarative_base()
 
@@ -8,11 +9,12 @@ class Transaction(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     transaction_id = Column(String, nullable=False, unique=True)
-    source = Column(String, nullable=False)   # откуда шла транзакция
-    destination = Column(String, nullable=False)    # на какой адрес пришло
+    wallet_address = Column(String, nullable=False)  # Адрес кошелька
+    source = Column(String, nullable=False)
+    destination = Column(String, nullable=False)
     value = Column(Float, nullable=False)
-    fee = Column(Float, nullable=False)    # комиссия
-    created_at = Column(Integer, nullable=False)  # Время создания транзакции в формате Unix timestamp
+    fee = Column(Float, nullable=False)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     body_hash = Column(String, nullable=True)
     message = Column(String, nullable=True)
 

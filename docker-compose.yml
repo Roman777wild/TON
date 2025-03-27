@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"  # Прокси порт 8000 из контейнера на хост
+    volumes:
+      - .:/app       # Монтируем текущую директорию в контейнер
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/ton_swap_db  # URL подключения к базе данных PostgreSQL
+    depends_on:
+      - db           # Указывает, что контейнер web зависит от db
+
+  db:
+    image: "postgres:13"  # Используем официальный образ PostgreSQL
+    environment:
+      POSTGRES_DB: ton_swap_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ton_swap_db_data:/var/lib/postgresql/data  # Данные базы данных будут храниться в томах Docker
+
+volumes:
+  ton_swap_db_data:   # Объявляем том для хранения данных базы данных
+

@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 # Загружаем переменные окружения из .env
 load_dotenv()
@@ -22,10 +22,3 @@ class Settings(BaseSettings):
         env_file = ".env"  # Указываем, что переменные загружаются из .env
 
 settings = Settings()
-
-# Вывод для проверки
-print(f"Используется БД: {settings.database_url}")
-print(f"API-ключ TON: {settings.ton_api_key}")
-print(f"Лимит запросов: {settings.rps_limit}")
-print(f"Уровень логирования: {settings.log_level}")
-print(f"Режим работы: {settings.env}")
