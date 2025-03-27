@@ -1,17 +1,28 @@
-FROM python:3.11.2-slim  # Базовый образ Python 3.11
+# Базовый образ Python
+FROM python:3.11.2-slim
 
-# Устанавливаем необходимые инструменты для сборки
+# Устанавливаем необходимые зависимости
 RUN apt-get update && apt-get install -y \
     build-essential \
     gcc \
     libsqlite3-dev \
-    && rm -rf /var/lib/apt/lists/*  # Устанавливаем зависимости для компиляции
+    && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app  # Устанавливаем рабочую директорию
+# Устанавливаем рабочую директорию внутри контейнера
+WORKDIR /app
 
-COPY . /app  # Копируем файлы проекта в контейнер
+# Копируем файлы проекта в контейнер
+COPY . /app
 
 # Устанавливаем зависимости Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["python", "main.py"]  # Команда для запуска вашего приложения
+# Указываем переменную окружения для SQLite
+ENV DATABASE_URL=sqlite:///ton_swap_db.db
+
+# Открываем порт
+EXPOSE 8000
+
+# Команда для запуска приложения
+CMD ["python", "main.py"]
+

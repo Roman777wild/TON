@@ -60,14 +60,14 @@ async def get_transactions(
     if start_date:
         try:
             start_datetime = datetime.strptime(start_date, "%Y-%m-%d")
-            filters.append(Transaction.timestamp >= start_datetime)
+            filters.append(Transaction.created_at >= start_datetime)
         except ValueError:
             raise HTTPException(status_code=400, detail="Invalid start_date format. Use YYYY-MM-DD")
 
     if end_date:
         try:
             end_datetime = datetime.strptime(end_date, "%Y-%m-%d")
-            filters.append(Transaction.timestamp <= end_datetime)
+            filters.append(Transaction.created_at <= end_datetime)
         except ValueError:
             raise HTTPException(status_code=400, detail="Invalid end_date format. Use YYYY-MM-DD")
 
